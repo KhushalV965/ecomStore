@@ -44,6 +44,43 @@ module.exports.signup = async (req, res, next) => {
     }
 };
 
+module.exports.signing = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({
+                message: "All fields are required"
+            })
+        }
+
+        const user = await userModel.findOne({ email });
+
+        if (!user) {
+            return res.status(400).json({
+                message: "invalid email or password"
+            })
+        }
+
+        const comparePassword = await bcrypt.compare(password, user.password);
+        if (!comparePassword) {
+            return res.status(400).json({
+                message: "invalid email or password"
+            })
+        }
+
+        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+        return res.status(201).json({
+            message: "User signed successfully",
+            user,
+            token
+        })
+    } catch (error) {
+        next(error);
+    }
+};
+
 
 
 
