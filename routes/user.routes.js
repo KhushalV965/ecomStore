@@ -5,6 +5,7 @@ const { signup, signing, signout, getProfile } = require('../controllers/user.co
 const { isAuthenticated } = require('../middlewares/auth.middlewares');
 
 router.post('/signup', signup);
+router.post('/login', signing);
 
 
 
