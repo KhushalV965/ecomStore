@@ -31,3 +31,15 @@ module.exports.isAuthenticated = async (req, res, next) => {
     }
 }
 
+module.exports.isAdmin = async (req, res, next) => {
+    try {
+        const user = req.user;
+        if (user.role !== 'admin') {
+            return res.status(400).json({
+                message: "Unauthorized"
+            });
+        }
+    } catch (error) {
+        next(error);
+    }
+}
