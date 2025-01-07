@@ -81,6 +81,26 @@ module.exports.signing = async (req, res, next) => {
     }
 };
 
+module.exports.signout = async (req, res, next) => {
+    try {
+        const token = req.headers.authorization;
 
+        if (!token) {
+            return res.status(400).json({
+                message: "Token is required"
+            })
+        }
 
+        const isTokenBlacklisted = await blacklistModel.findOne({ token });
+
+        if (isTokenBlacklisted) {
+            return res.status(400).json({
+                message: "Token is already blacklisted"
+            })
+        }
+
+    } catch (error) {
+        next(error)
+    }
+};
 
