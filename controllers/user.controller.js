@@ -104,3 +104,17 @@ module.exports.signout = async (req, res, next) => {
     }
 };
 
+module.exports.getProfile = async (req, res, next) => {
+    try {
+        const user = await userModel.findById(req.user._id);
+
+        res.status(200).json({
+            message: "User fetched successfully",
+            user
+        })
+    } catch (error) {
+        next(error);
+    }
+};
+
+
