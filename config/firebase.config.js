@@ -4,4 +4,5 @@ const serviceCredentials = require('../jetech-c0504-firebase-adminsdk-fyyh3-17d8
 
 fbAdmin.initializeApp({
     credential: fbAdmin.credential.cert(serviceCredentials),
+    storageBucket: "jetech-c0504.firebasestorage.app"
 })
